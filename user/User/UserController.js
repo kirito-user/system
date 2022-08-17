@@ -10,13 +10,6 @@ class UserController {
         return res.json({token: result})
     
     }
-
-
-    async islogin(req, res) {
-        const { token } = req.body
-        await userService.islogin(token);
-
-    }
 }
 
 module.exports = new UserController()

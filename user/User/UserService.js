@@ -1,6 +1,5 @@
 const userDao = require('./UserDao')
 const jwt = require('jsonwebtoken')
-const { token } = require('morgan')
 const jwtkey = 'kbbkbkjbkkbkbkbkbkb'
 class UserService {
     async login(number, password) {
@@ -20,12 +19,6 @@ class UserService {
             {expiresIn: '1h'},
         )
         return result
-    }
-
-    async islogin(token) {
-        const result = jwt.verify(token, jwtkey)
-
-        console.log(result);
     }
 }
 
