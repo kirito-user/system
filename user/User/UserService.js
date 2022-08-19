@@ -5,6 +5,8 @@ const util = require('../util/commom.js')
 const svgCaptcha = require('svg-captcha')
 const { isEmptyV2 } = require('../util/commom.js')
 const jwtkey = 'kbbkbkjbkkbkbkbkbkb'
+
+const redis = require('../util/redis')
 class UserService {
     async login(number, password) {
         const user = (await userDao.queryByCondition({number: number}))[0]
@@ -35,19 +37,29 @@ class UserService {
 
 
     async register(name, number, password){
-        const user = (await userDao.queryByCondition({number: number}))[0]
-        if(!user) {
+
+        const redis_key = await redis.set(number, 1, {NX: 'NX'})
+
+        if(redis_key === 'ok') {
+            const user = (await userDao.queryByCondition({number: number}))[0]
+            if(!user) {
+                return {
+                    code: 400,
+                    msg: 'account already occupied'
+                }
+            }
+
+            await userDao.insertOne({name: name, number: number, password})
+            await redis.del(number)
+            return {
+                code: 200,
+                msg: 'register success'
+            }
+        } else {
             return {
                 code: 400,
-                msg: 'account already occupied'
+                msg: '重复点击'
             }
-        }
-
-        await userDao.insertOne({name: name, number: number, password})
-
-        return {
-            code: 200,
-            msg: 'register success'
         }
     }
 

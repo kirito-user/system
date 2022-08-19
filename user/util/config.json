@@ -5,5 +5,8 @@
         "password": "123456",
         "database" : "xt"
     },
-    "jwtkey": "kbbkbkjbkkbkbkbkbkb"
+    "jwtkey": "kbbkbkjbkkbkbkbkbkb",
+    "redis": {
+        "url":"redis://localhost:6380"
+    }
 }
