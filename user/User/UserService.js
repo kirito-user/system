@@ -25,6 +25,14 @@ class UserService {
         return result
     }
 
+    /**
+     * 
+     * @param {String} name 
+     * @param {String} number 
+     * @param {Number} password 
+     * @returns 
+     */
+
 
     async register(name, number, password){
         const user = (await userDao.queryByCondition({number: number}))[0]
