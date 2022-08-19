@@ -42,6 +42,12 @@ class UserController {
 
     }
 
+    async queryUserAndRole(req, res) {
+        const token = req.headers.authorization.slice(7);
+        const result = await userService.queryUserAndRole(token)
+        return res.json(result)
+    }
+
 }
 
 module.exports = new UserController()
